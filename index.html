@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Scissors Rock Game</title>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <h2>You will verse the computer!</h2>
+
+</body>
+
+<script>
+function getComputerChoice () {
+    number = Math.floor(Math.random() * 3);
+    switch(number) {
+        case 0:
+            play = 'paper';
+            break;
+        case 1: 
+            play = 'scissors';
+            break;
+        case 2: 
+            play = 'rock';
+            break;            
+    }
+    return play
+}
+
+const playerSelection = 'scissors'; // temporary
+const computerSelection = getComputerChoice();
+console.log(computerSelection)
+let compWins = 0;
+let userWins = 0;
+
+// playerSelection.toLowerCase()
+
+function playRound(comp,user) {
+    console.log(comp,user)
+    if (comp === user) {
+        gameResult = `It's a draw, you both played ${comp}`
+    }
+    else if ((comp == 'rock' && user == 'scissors') || (comp == 'scissors' && user == 'paper') || (comp == 'paper' && user == 'rock')) {
+        gameResult = `You lost, ${comp} beats ${user}.`
+        compWins++;
+    }
+    else {
+        console.log(comp,user)
+        gameResult = `You won! ${user} beats ${comp}.`
+        userWins++;
+    }
+    return gameResult
+}
+
+console.log(playRound(computerSelection,playerSelection))
+
+
+for (let i = 0; i < 5; i++) {
+   // your code here!
+}
+
+</script>
+</html>

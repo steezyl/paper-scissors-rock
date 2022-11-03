@@ -7,72 +7,120 @@
     <title>Paper Scissors Rock Game</title>
 </head>
 <body>
-    <h1>Rock Paper Scissors</h1>
-    <h2>You will verse the computer!</h2>
+    <h1>5 Rounds of Rock Paper Scissors</h1>
     <p>Please enter Rock, Paper or Scissors and press play.</p>
-    <p>Winner will be the best of 5 rounds.</p>
 
     <div class="form">
         <input type="text" id="guessField" class="guessField">
         <input type="submit" value="Play!" class="guessSubmit">
-      </div>
+    </div>
 
       <div class="resultParas">
-        <p class="round"></p>
         <p class="compScore"></p>
         <p class="userScore"></p>
+        <p class="roundCounter"></p>
+        <p class="gameResult"></p>
       </div>
 
 </body>
 
 <script>
+const roundCounter = document.querySelector('.roundCounter');
+const compScore = document.querySelector('.compScore');
+const userScore = document.querySelector('.userScore');
+const guessSubmit = document.querySelector('.guessSubmit');
+const guessField = document.querySelector('.guessField');
+const gameResult = document.querySelector('.gameResult');
+
+let compWins = 0;
+let userWins = 0;
+let gameNumber = 1;
+
+console.log(gameNumber)
+
+roundCounter.textContent = "Round: " +gameNumber;
+compScore.textContent = "Computer's Score: " +compWins;
+userScore.textContent = "Your Score: " +userWins;
+
+
+
 function getComputerChoice () {
     number = Math.floor(Math.random() * 3);
     switch(number) {
         case 0:
-            play = 'paper';
+            comp = 'paper';
             break;
         case 1: 
-            play = 'scissors';
+            comp = 'scissors';
             break;
         case 2: 
-            play = 'rock';
+            comp = 'rock';
             break;            
     }
-    return play
+    return comp
 }
 
-const playerSelection = 'scissors'; // temporary
-const computerSelection = getComputerChoice();
-console.log(computerSelection)
-let compWins = 0;
-let userWins = 0;
-
-// playerSelection.toLowerCase()
-
-function playRound(comp,user) {
+function playRound() {
+    user = String(guessField.value).toLowerCase();
+    comp = getComputerChoice();
     console.log(comp,user)
     if (comp === user) {
-        gameResult = `It's a draw, you both played ${comp}`
+        roundResult = `It's a draw, you both played ${comp}`;
     }
     else if ((comp == 'rock' && user == 'scissors') || (comp == 'scissors' && user == 'paper') || (comp == 'paper' && user == 'rock')) {
-        gameResult = `You lost, ${comp} beats ${user}.`
-        compWins++;
+        roundResult = `You lost, ${comp} beats ${user}.`;
+        compScore.textContent = "Computer's Score: " + ++compWins;
     }
     else {
-        console.log(comp,user)
-        gameResult = `You won! ${user} beats ${comp}.`
-        userWins++;
+        roundResult = `You won! ${user} beats ${comp}.`;
+        userScore.textContent = "Your Score: " + ++userWins;
     }
-    return gameResult
+    
+    return roundResult;
 }
 
-console.log(playRound(computerSelection,playerSelection))
+let i = 0;
+function game() {
+        if (i <= 3) {
+            roundResult = playRound();
+            gameResult.textContent = roundResult;
+            roundCounter.textContent = "Round: " +gameNumber++;
+            ++i;
+        }
+        else if (i==4) {
+            roundCounter.textContent = "FINAL ROUND!";
+            roundResult = playRound();
+            gameResult.textContent = roundResult;
+            ++i;
+        }
+        else {
+            guessField.disabled = true;
+	        guessSubmit.disabled = true;
+            resetButton = document.createElement('button');
+            resetButton.textContent = 'Start new game';
+            document.body.appendChild(resetButton);
+            resetButton.addEventListener('click', resetGame);
+        }
+    }
 
+function resetGame() {
+	  i = 0;
 
-for (let i = 0; i < 5; i++) {
-   // your code here!
+    const resetParas = document.querySelectorAll('.resultParas p');
+    for (const resetPara of resetParas) {
+      resetPara.textContent = '';
+    }
+	  resetButton.parentNode.removeChild(resetButton);
+
+	  guessField.disabled = false;
+	  guessSubmit.disabled = false;
+	  guessField.value = '';
+	  guessField.focus();
 }
+
+
+guessSubmit.addEventListener('click', game);
+
 
 </script>
 </html>

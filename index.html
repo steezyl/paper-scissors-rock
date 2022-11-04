@@ -5,122 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paper Scissors Rock Game</title>
+    <link href="style.css" rel="stylesheet">
 </head>
+
 <body>
-    <h1>5 Rounds of Rock Paper Scissors</h1>
-    <p>Please enter Rock, Paper or Scissors and press play.</p>
+  <div class="heading-container">
+    <h1>Paper Scissors Rock</h1>
+    <p>Choose your weapon! <em>(Type Paper, Scissors or Rock)</em></p>
+  </div>
 
-    <div class="form">
-        <input type="text" id="guessField" class="guessField">
-        <input type="submit" value="Play!" class="guessSubmit">
-    </div>
+  <p class="roundCounter round-container"></p>
 
-      <div class="resultParas">
+<div class="form-container">
+  <div class="form">
+    <input type="text" id="guessField" class="guessField">
+    <input type="submit" value="Play!" class="guessSubmit">
+  </div>
+</div>
+
+
+<div class="resultParas result-container">
+    
+      <div class="score-container">
         <p class="compScore"></p>
         <p class="userScore"></p>
-        <p class="roundCounter"></p>
-        <p class="gameResult"></p>
       </div>
+      <p class="gameResult"></p>
+</div>
 
+<button class="resetButton"></button>
+
+    <script src="main.js"></script>
 </body>
 
-<script>
-const roundCounter = document.querySelector('.roundCounter');
-const compScore = document.querySelector('.compScore');
-const userScore = document.querySelector('.userScore');
-const guessSubmit = document.querySelector('.guessSubmit');
-const guessField = document.querySelector('.guessField');
-const gameResult = document.querySelector('.gameResult');
-
-let compWins = 0;
-let userWins = 0;
-let gameNumber = 1;
-
-console.log(gameNumber)
-
-roundCounter.textContent = "Round: " +gameNumber;
-compScore.textContent = "Computer's Score: " +compWins;
-userScore.textContent = "Your Score: " +userWins;
-
-
-
-function getComputerChoice () {
-    number = Math.floor(Math.random() * 3);
-    switch(number) {
-        case 0:
-            comp = 'paper';
-            break;
-        case 1: 
-            comp = 'scissors';
-            break;
-        case 2: 
-            comp = 'rock';
-            break;            
-    }
-    return comp
-}
-
-function playRound() {
-    user = String(guessField.value).toLowerCase();
-    comp = getComputerChoice();
-    console.log(comp,user)
-    if (comp === user) {
-        roundResult = `It's a draw, you both played ${comp}`;
-    }
-    else if ((comp == 'rock' && user == 'scissors') || (comp == 'scissors' && user == 'paper') || (comp == 'paper' && user == 'rock')) {
-        roundResult = `You lost, ${comp} beats ${user}.`;
-        compScore.textContent = "Computer's Score: " + ++compWins;
-    }
-    else {
-        roundResult = `You won! ${user} beats ${comp}.`;
-        userScore.textContent = "Your Score: " + ++userWins;
-    }
-    
-    return roundResult;
-}
-
-let i = 0;
-function game() {
-        if (i <= 3) {
-            roundResult = playRound();
-            gameResult.textContent = roundResult;
-            roundCounter.textContent = "Round: " +gameNumber++;
-            ++i;
-        }
-        else if (i==4) {
-            roundCounter.textContent = "FINAL ROUND!";
-            roundResult = playRound();
-            gameResult.textContent = roundResult;
-            ++i;
-        }
-        else {
-            guessField.disabled = true;
-	        guessSubmit.disabled = true;
-            resetButton = document.createElement('button');
-            resetButton.textContent = 'Start new game';
-            document.body.appendChild(resetButton);
-            resetButton.addEventListener('click', resetGame);
-        }
-    }
-
-function resetGame() {
-	  i = 0;
-
-    const resetParas = document.querySelectorAll('.resultParas p');
-    for (const resetPara of resetParas) {
-      resetPara.textContent = '';
-    }
-	  resetButton.parentNode.removeChild(resetButton);
-
-	  guessField.disabled = false;
-	  guessSubmit.disabled = false;
-	  guessField.value = '';
-	  guessField.focus();
-}
-
-
-guessSubmit.addEventListener('click', game);
-
-
-</script>
 </html>

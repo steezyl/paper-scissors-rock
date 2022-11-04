@@ -41,7 +41,6 @@ function getComputerChoice () {
 function playRound() {
     user = String(guessField.value).toLowerCase();
     comp = getComputerChoice();
-    roundCounter.textContent = "Round " +gameNumber;
     compScore.textContent = "Computer's Score: " +compWins;
     userScore.textContent = "Your Score: " +userWins;
     console.log(comp,user)

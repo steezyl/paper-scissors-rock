@@ -8,7 +8,9 @@ const guessField = document.querySelector('.guessField');
 const gameResult = document.querySelector('.gameResult');
 const resetButton = document.querySelector('.resetButton');
 
-
+// Code below hides the empty reset button 
+// Better to load the button into the DOM tree than to append for UI lol
+resetButton.style.visibility = "hidden";
 
 // Global Variables to start the game
 let compWins = 0;
@@ -59,30 +61,32 @@ function playRound() {
 }
 
 // Function to keep track of rounds 
-let i = 0;
+let counter = 0;
 function game() {
-        if (i <= 3) {
+        if (counter <= 3) {
             roundResult = playRound();
             gameResult.textContent = roundResult;
             roundCounter.textContent = "Round " + ++gameNumber;
-            ++i;
+            ++counter;
         }
-        else if (i==4) {
+        else if (counter==4) {
+            console.log(counter);
             roundCounter.textContent = "FINAL ROUND!";
             roundResult = playRound();
             gameResult.textContent = roundResult;
-            ++i;
+            ++counter;
         }
         else {
             if (userWins > compWins) {
                 gameResult.textContent = `You won! Well done, you're smarter than a computer!`
             }
             else { 
-                gameResult.textContent = `You Lost! Sucks to suck`
+                gameResult.textContent = `You Lost! Play again!`
             }
             roundCounter.textContent = " ";
             guessField.disabled = true;
 	        guessSubmit.disabled = true;
+            resetButton.style.visibility = "visible";
             resetButton.textContent = 'Start new game';
             resetButton.addEventListener('click', resetGame);
         }
@@ -90,7 +94,7 @@ function game() {
 
 // Reset the game and values 
 function resetGame() {
-	i = 0;
+	counter = 0;
     compWins = 0;
     userWins = 0;
     gameNumber = 1;
@@ -98,11 +102,12 @@ function resetGame() {
     for (const resetPara of resetParas) {
       resetPara.textContent = '';
     }
-      resetButton.textContent = ' ';
+      resetButton.textContent = '';
 	  guessField.disabled = false;
 	  guessSubmit.disabled = false;
 	  guessField.value = '';
 	  guessField.focus();
+      resetButton.style.visibility = "hidden";
       roundCounter.textContent = "Round " +gameNumber;
       compScore.textContent = "Computer's Score: " +compWins;
       userScore.textContent = "Your Score: " +userWins;

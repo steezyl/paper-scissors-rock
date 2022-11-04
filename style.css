@@ -40,7 +40,7 @@ body {
     justify-content: center;
   }
 
-  #button {
+  .reset-container {
     display: flex;
     justify-content: center;
     align-items: center;

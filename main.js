@@ -39,13 +39,13 @@ function getComputerChoice () {
 
 // Function plays a round of the game and will update wins
 function playRound() {
-    user = String(guessField.value).toLowerCase();
+    user = String(guessField.value).toLowerCase(); // Case friendly
     comp = getComputerChoice();
     compScore.textContent = "Computer's Score: " +compWins;
     userScore.textContent = "Your Score: " +userWins;
     console.log(comp,user)
     if (comp === user) {
-        roundResult = `It's a draw, you both played ${comp}`;
+        roundResult = `Tie Game! You both played ${comp}`;
     }
     else if ((comp == 'rock' && user == 'scissors') || (comp == 'scissors' && user == 'paper') || (comp == 'paper' && user == 'rock')) {
         roundResult = `You lost, ${comp} beats ${user}.`;
@@ -78,6 +78,9 @@ function game() {
         else {
             if (userWins > compWins) {
                 gameResult.textContent = `You won! Well done, you're smarter than a computer!`
+            }
+            else if (userWins == compWins){
+                gameResult.textContent = "It's a draw!"
             }
             else { 
                 gameResult.textContent = `You Lost! Play again!`

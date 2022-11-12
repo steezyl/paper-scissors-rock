@@ -3,10 +3,12 @@
 const roundCounter = document.querySelector('.roundCounter');
 const compScore = document.querySelector('.compScore');
 const userScore = document.querySelector('.userScore');
-const guessSubmit = document.querySelector('.guessSubmit');
-const guessField = document.querySelector('.guessField');
 const gameResult = document.querySelector('.gameResult');
 const resetButton = document.querySelector('.resetButton');
+
+// Button selectors 
+const playersChoice = document.querySelectorAll('button');
+
 
 // Code below hides the empty reset button 
 // Better to load the button into the DOM tree than to append for UI lol
@@ -38,12 +40,11 @@ function getComputerChoice () {
 }
 
 // Function plays a round of the game and will update wins
-function playRound() {
-    user = String(guessField.value).toLowerCase(); // Case friendly
+function playRound(user) {
     comp = getComputerChoice();
     compScore.textContent = "Computer's Score: " +compWins;
     userScore.textContent = "Your Score: " +userWins;
-    console.log(comp,user)
+    // console.log(comp,user)
     if (comp === user) {
         roundResult = `Tie Game! You both played ${comp}`;
     }
@@ -62,8 +63,10 @@ function playRound() {
 // Function to keep track of rounds 
 let counter = 0;
 function game() {
+    let user = this.classList[0];
+    console.log(user);
         if (counter <= 3) {
-            roundResult = playRound();
+            roundResult = playRound(user);
             gameResult.textContent = roundResult;
             roundCounter.textContent = "Round " + ++gameNumber;
             ++counter;
@@ -71,7 +74,7 @@ function game() {
         else if (counter==4) {
             console.log(counter);
             roundCounter.textContent = "FINAL ROUND!";
-            roundResult = playRound();
+            roundResult = playRound(user);
             gameResult.textContent = roundResult;
             ++counter;
         }
@@ -86,8 +89,6 @@ function game() {
                 gameResult.textContent = `You Lost! Play again!`
             }
             roundCounter.textContent = " ";
-            guessField.disabled = true;
-	        guessSubmit.disabled = true;
             resetButton.style.visibility = "visible";
             resetButton.textContent = 'Start new game';
             resetButton.addEventListener('click', resetGame);
@@ -105,10 +106,6 @@ function resetGame() {
       resetPara.textContent = '';
     }
       resetButton.textContent = '';
-	  guessField.disabled = false;
-	  guessSubmit.disabled = false;
-	  guessField.value = '';
-	  guessField.focus();
       resetButton.style.visibility = "hidden";
       roundCounter.textContent = "Round " +gameNumber;
       compScore.textContent = "Computer's Score: " +compWins;
@@ -118,4 +115,5 @@ function resetGame() {
 }
 
 // Event listener 
-guessSubmit.addEventListener('click', game);
+playersChoice.forEach(button => button.addEventListener('click', game));
+
